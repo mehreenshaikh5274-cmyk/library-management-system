@@ -1,0 +1,405 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Library Books</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .header {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #1e293b;
+        }
+
+        .back {
+            text-decoration: none;
+            color: #2563eb;
+        }
+
+        .top-buttons {
+            margin-top: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 11px 16px;
+            border-radius: 7px;
+            text-decoration: none;
+            color: white;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+
+        .add-button {
+            background: #2563eb;
+        }
+
+        .student-button {
+            background: #7c3aed;
+        }
+
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        .search-button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 7px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .clear-button {
+            padding: 12px 20px;
+            border-radius: 7px;
+            background: #64748b;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .table-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th,
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+        }
+
+        th {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .available {
+            color: #15803d;
+            font-weight: bold;
+        }
+
+        .unavailable {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .delete-button {
+            background: #dc2626;
+            color: white;
+            padding: 7px 11px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+
+        .count {
+            margin-bottom: 15px;
+            color: #475569;
+        }
+
+        @media (max-width: 700px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .search-form {
+                flex-direction: column;
+            }
+
+            .search-input,
+            .search-button,
+            .clear-button {
+                width: 100%;
+            }
+
+            .button {
+                margin-bottom: 8px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>📚 Library Books</h1>
+
+        <a class="back" href="/">
+            ← Back to Dashboard
+        </a>
+
+
+        <div class="top-buttons">
+
+            <a class="button add-button" href="/add-book">
+                ➕ Add Book
+            </a>
+
+            <a class="button student-button" href="/students">
+                👨‍🎓 Students
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- SEARCH -->
+
+    <div class="search-box">
+
+        <h2>🔍 Search Books</h2>
+
+        <form
+            class="search-form"
+            method="GET"
+            action="/books"
+        >
+
+            <input
+                class="search-input"
+                type="text"
+                name="search"
+                placeholder="Search by Book ID, Title, Author or Category..."
+                value="{{ search }}"
+            >
+
+            <button
+                class="search-button"
+                type="submit"
+            >
+                🔍 Search
+            </button>
+
+            <a
+                class="clear-button"
+                href="/books"
+            >
+                Clear
+            </a>
+
+        </form>
+
+    </div>
+
+
+    <!-- BOOK TABLE -->
+
+    <div class="table-box">
+
+        <h2>📖 Book List</h2>
+
+        <div class="count">
+
+            {% if books %}
+
+                Showing {{ books|length }} book record(s)
+
+            {% else %}
+
+                No books found.
+
+            {% endif %}
+
+        </div>
+
+
+        {% if books %}
+
+        <table>
+
+            <tr>
+
+                <th>Book ID</th>
+
+                <th>Title</th>
+
+                <th>Author</th>
+
+                <th>Category</th>
+
+                <th>Total Copies</th>
+
+                <th>Available</th>
+
+                <th>Status</th>
+
+                <th>Action</th>
+
+            </tr>
+
+
+            {% for book in books %}
+
+            <tr>
+
+                <td>
+                    {{ book['book_id'] }}
+                </td>
+
+                <td>
+                    {{ book['title'] }}
+                </td>
+
+                <td>
+                    {{ book['author'] }}
+                </td>
+
+                <td>
+                    {{ book['category'] or 'Not specified' }}
+                </td>
+
+                <td>
+                    {{ book['total_copies'] }}
+                </td>
+
+                <td>
+                    {{ book['available_copies'] }}
+                </td>
+
+                <td>
+
+                    {% if book['available_copies'] > 0 %}
+
+                        <span class="available">
+                            🟢 Available
+                        </span>
+
+                    {% else %}
+
+                        <span class="unavailable">
+                            🔴 Not Available
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+                <td>
+
+                    <a
+                        class="delete-button"
+                        href="/delete-book/{{ book['id'] }}"
+                        onclick="return confirm('Are you sure you want to delete this book?');"
+                    >
+                        🗑️ Delete
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+
+        {% else %}
+
+        <div class="empty">
+
+            <h2>📚 No Books Found</h2>
+
+            <p>
+                {% if search %}
+                    No books match your search.
+                {% else %}
+                    No books have been added yet.
+                {% endif %}
+            </p>
+
+            <a
+                class="button add-button"
+                href="/add-book"
+            >
+                ➕ Add First Book
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
+

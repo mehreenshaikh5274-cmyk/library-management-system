@@ -1,0 +1,280 @@
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Library Reports</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            padding: 30px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .header,
+        .card,
+        .table-box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            margin-top: 0;
+            color: #1e293b;
+        }
+
+        .back {
+            text-decoration: none;
+            color: #2563eb;
+        }
+
+        .download-button {
+            display: inline-block;
+            background: #16a34a;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 18px;
+        }
+
+        .download-button:hover {
+            background: #15803d;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .card h3 {
+            color: #64748b;
+            margin-top: 0;
+        }
+
+        .number {
+            font-size: 30px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #e2e8f0;
+        }
+
+        .table-box {
+            overflow-x: auto;
+        }
+
+        .empty {
+            color: #64748b;
+            padding: 20px;
+        }
+
+        @media (max-width: 700px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                min-width: 900px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>📊 Library Reports</h1>
+
+        <a class="back" href="/">
+            ← Back to Dashboard
+        </a>
+
+        <br>
+
+        <a class="download-button" href="/download-report">
+            📥 Download Excel Report
+        </a>
+
+    </div>
+
+
+    <!-- STATISTICS -->
+
+    <div class="stats">
+
+        <div class="card">
+
+            <h3>Total Transactions</h3>
+
+            <div class="number">
+                {{ total_issued }}
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Currently Issued</h3>
+
+            <div class="number">
+                {{ currently_issued }}
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Total Fine</h3>
+
+            <div class="number">
+                ₹{{ "%.2f"|format(total_fine) }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- REPORT TABLE -->
+
+    <div class="table-box">
+
+        <h2>Issue / Return History</h2>
+
+
+        {% if records %}
+
+        <table>
+
+            <tr>
+
+                <th>Book ID</th>
+                <th>Book</th>
+                <th>Roll No</th>
+                <th>Student</th>
+                <th>Issue Date</th>
+                <th>Due Date</th>
+                <th>Return Date</th>
+                <th>Fine</th>
+
+            </tr>
+
+
+            {% for record in records %}
+
+            <tr>
+
+                <td>
+                    {{ record['book_id'] }}
+                </td>
+
+                <td>
+                    {{ record['title'] }}
+                </td>
+
+                <td>
+                    {{ record['roll_no'] }}
+                </td>
+
+                <td>
+                    {{ record['name'] }}
+                </td>
+
+                <td>
+                    {{ record['issue_date'] }}
+                </td>
+
+                <td>
+                    {{ record['due_date'] }}
+                </td>
+
+                <td>
+
+                    {% if record['return_date'] %}
+
+                        {{ record['return_date'] }}
+
+                    {% else %}
+
+                        Not Returned
+
+                    {% endif %}
+
+                </td>
+
+                <td>
+                    ₹{{ "%.2f"|format(record['fine'] or 0) }}
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+
+        {% else %}
+
+        <div class="empty">
+
+            <h3>📚 No issue/return records yet.</h3>
+
+            <p>
+                Issue a book to a student to create a transaction.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

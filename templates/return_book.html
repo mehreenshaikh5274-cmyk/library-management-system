@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Return Book</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f8;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        h1 {
+            color: #1e293b;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #e2e8f0;
+        }
+
+        button {
+            background: #16a34a;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #2563eb;
+        }
+
+        .empty {
+            padding: 30px;
+            text-align: center;
+            color: #64748b;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📥 Return Book</h1>
+
+    {% if issued %}
+
+    <table>
+
+        <tr>
+            <th>Book ID</th>
+            <th>Book Title</th>
+            <th>Roll No</th>
+            <th>Student</th>
+            <th>Issue Date</th>
+            <th>Due Date</th>
+            <th>Action</th>
+        </tr>
+
+        {% for item in issued %}
+
+        <tr>
+
+            <td>
+                {{ item['book_id'] }}
+            </td>
+
+            <td>
+                {{ item['title'] }}
+            </td>
+
+            <td>
+                {{ item['roll_no'] }}
+            </td>
+
+            <td>
+                {{ item['name'] }}
+            </td>
+
+            <td>
+                {{ item['issue_date'] }}
+            </td>
+
+            <td>
+                {{ item['due_date'] }}
+            </td>
+
+            <td>
+
+                <form method="POST"
+                      action="/return-book">
+
+                    <input
+                        type="hidden"
+                        name="issue_id"
+                        value="{{ item['id'] }}"
+                    >
+
+                    <button type="submit">
+                        📥 Return
+                    </button>
+
+                </form>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    {% else %}
+
+    <div class="empty">
+
+        <h2>📚 No books are currently issued.</h2>
+
+        <p>There are no books waiting to be returned.</p>
+
+    </div>
+
+    {% endif %}
+
+    <a class="back" href="/">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>
+

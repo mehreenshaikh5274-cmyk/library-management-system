@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Book</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+        }
+
+        .header {
+            background: #1e3a5f;
+            color: white;
+            padding: 20px 30px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #1e3a5f;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 13px;
+            background: #1e3a5f;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #162d4a;
+        }
+
+        .back {
+            display: block;
+            margin-top: 15px;
+            text-align: center;
+            text-decoration: none;
+            color: #1e3a5f;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>📚 College Library Management System</h1>
+    </div>
+
+    <div class="container">
+
+        <h2>➕ Add New Book</h2>
+
+        <form method="POST">
+
+            <label>Book ID</label>
+            <input type="text" name="book_id" placeholder="Example: B001" required>
+
+            <label>Book Name</label>
+            <input type="text" name="title" placeholder="Enter book name" required>
+
+            <label>Author</label>
+            <input type="text" name="author" placeholder="Enter author name" required>
+
+            <label>Category</label>
+            <input type="text" name="category" placeholder="Example: Programming">
+
+            <label>Total Copies</label>
+            <input type="number" name="total_copies" min="1" required>
+
+            <button type="submit">Add Book</button>
+
+        </form>
+
+        <a class="back" href="/">← Back to Dashboard</a>
+
+    </div>
+
+</body>
+</html>

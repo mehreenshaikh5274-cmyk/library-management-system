@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Issue Book</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        h1 {
+            color: #1e293b;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+        }
+
+        button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 13px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #2563eb;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📤 Issue Book</h1>
+
+    <form method="POST" action="/issue-book">
+
+        <label>Book</label>
+
+        <select name="book_id" required>
+
+            <option value="">-- Select Book --</option>
+
+            {% for book in books %}
+
+            <option value="{{ book['book_id'] }}">
+                {{ book['book_id'] }} -
+                {{ book['title'] }}
+                ({{ book['available_copies'] }} available)
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+
+        <label>Student</label>
+
+        <select name="roll_no" required>
+
+            <option value="">-- Select Student --</option>
+
+            {% for student in students %}
+
+            <option value="{{ student['roll_no'] }}">
+                {{ student['roll_no'] }} -
+                {{ student['name'] }}
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+
+        <label>Issue Date</label>
+
+        <input
+            type="date"
+            name="issue_date"
+            value="{{ today }}"
+            required
+        >
+
+
+        <label>Due Date</label>
+
+        <input
+            type="date"
+            name="due_date"
+            required
+        >
+
+
+        <button type="submit">
+            📤 Issue Book
+        </button>
+
+    </form>
+
+    <a class="back" href="/">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>
+

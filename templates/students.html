@@ -1,0 +1,408 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Student Management</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .header {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #1e293b;
+        }
+
+        .back {
+            text-decoration: none;
+            color: #2563eb;
+        }
+
+        .top-buttons {
+            margin-top: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 11px 16px;
+            border-radius: 7px;
+            text-decoration: none;
+            color: white;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+
+        .add-button {
+            background: #2563eb;
+        }
+
+        .book-button {
+            background: #7c3aed;
+        }
+
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        .search-button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 7px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .clear-button {
+            padding: 12px 20px;
+            border-radius: 7px;
+            background: #64748b;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .table-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th,
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+        }
+
+        th {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .delete-button {
+            background: #dc2626;
+            color: white;
+            padding: 7px 11px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+
+        .count {
+            margin-bottom: 15px;
+            color: #475569;
+        }
+
+        .branch {
+            font-weight: bold;
+            color: #7c3aed;
+        }
+
+        .year {
+            color: #0369a1;
+        }
+
+        @media (max-width: 700px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .search-form {
+                flex-direction: column;
+            }
+
+            .search-input,
+            .search-button,
+            .clear-button {
+                width: 100%;
+            }
+
+            .button {
+                margin-bottom: 8px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>👨‍🎓 Student Management</h1>
+
+        <a class="back" href="/">
+            ← Back to Dashboard
+        </a>
+
+
+        <div class="top-buttons">
+
+            <a
+                class="button add-button"
+                href="/add-student"
+            >
+                ➕ Add Student
+            </a>
+
+
+            <a
+                class="button book-button"
+                href="/books"
+            >
+                📚 Books
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- SEARCH -->
+
+    <div class="search-box">
+
+        <h2>🔍 Search Students</h2>
+
+        <form
+            class="search-form"
+            method="GET"
+            action="/students"
+        >
+
+            <input
+                class="search-input"
+                type="text"
+                name="search"
+                placeholder="Search by Roll No, Name, Branch or Year..."
+                value="{{ search }}"
+            >
+
+
+            <button
+                class="search-button"
+                type="submit"
+            >
+                🔍 Search
+            </button>
+
+
+            <a
+                class="clear-button"
+                href="/students"
+            >
+                Clear
+            </a>
+
+        </form>
+
+    </div>
+
+
+    <!-- STUDENT TABLE -->
+
+    <div class="table-box">
+
+        <h2>👨‍🎓 Student List</h2>
+
+
+        <div class="count">
+
+            {% if students %}
+
+                Showing {{ students|length }} student(s)
+
+            {% else %}
+
+                No students found.
+
+            {% endif %}
+
+        </div>
+
+
+        {% if students %}
+
+        <table>
+
+            <tr>
+
+                <th>Roll No</th>
+
+                <th>Name</th>
+
+                <th>Branch</th>
+
+                <th>Year</th>
+
+                <th>Phone</th>
+
+                <th>Action</th>
+
+            </tr>
+
+
+            {% for student in students %}
+
+            <tr>
+
+                <td>
+                    {{ student['roll_no'] }}
+                </td>
+
+
+                <td>
+                    {{ student['name'] }}
+                </td>
+
+
+                <td>
+
+                    <span class="branch">
+                        {{ student['branch'] or 'Not specified' }}
+                    </span>
+
+                </td>
+
+
+                <td>
+
+                    <span class="year">
+                        {{ student['year'] or 'Not specified' }}
+                    </span>
+
+                </td>
+
+
+                <td>
+                    {{ student['phone'] or 'Not specified' }}
+                </td>
+
+
+                <td>
+
+                    <a
+                        class="delete-button"
+                        href="/delete-student/{{ student['id'] }}"
+                        onclick="return confirm('Are you sure you want to delete this student?');"
+                    >
+                        🗑️ Delete
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+
+        {% else %}
+
+        <div class="empty">
+
+            <h2>👨‍🎓 No Students Found</h2>
+
+            <p>
+
+                {% if search %}
+
+                    No students match your search.
+
+                {% else %}
+
+                    No students have been added yet.
+
+                {% endif %}
+
+            </p>
+
+
+            <a
+                class="button add-button"
+                href="/add-student"
+            >
+                ➕ Add First Student
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
+

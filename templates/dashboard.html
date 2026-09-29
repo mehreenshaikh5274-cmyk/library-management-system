@@ -1,0 +1,435 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>College Library Management System</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: #1e293b;
+            color: white;
+            padding: 25px 15px;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .sidebar a {
+            display: block;
+            text-decoration: none;
+            color: white;
+            padding: 14px;
+            margin: 8px 0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .sidebar a:hover {
+            background: #334155;
+        }
+
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 250px;
+            padding: 30px;
+        }
+
+
+        /* ================= TOP BAR ================= */
+
+        .topbar {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .topbar h1 {
+            margin: 0;
+            color: #1e293b;
+        }
+
+        .topbar p {
+            color: #64748b;
+        }
+
+
+        /* ================= STATISTICS ================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .card h3 {
+            margin: 0 0 10px;
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        .number {
+            font-size: 30px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+
+        /* ================= QUICK ACTIONS ================= */
+
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .action {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #1e293b;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: 0.2s;
+        }
+
+        .action:hover {
+            background: #e2e8f0;
+            transform: translateY(-2px);
+        }
+
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 1000px) {
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 15px;
+            }
+
+            .stats,
+            .actions {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==================================================
+     SIDEBAR
+================================================== -->
+
+<div class="sidebar">
+
+    <h2>📚 Library</h2>
+
+
+    <a href="/">
+        🏠 Dashboard
+    </a>
+
+
+    <a href="/add-book">
+        ➕ Add Book
+    </a>
+
+
+    <a href="/books">
+        📖 View Books
+    </a>
+
+
+    <a href="/students">
+        👨‍🎓 Students
+    </a>
+
+
+    <a href="/issue-book">
+        📤 Issue Book
+    </a>
+
+
+    <a href="/return-book">
+        📥 Return Book
+    </a>
+
+
+    <a href="/reports">
+        📊 Reports
+    </a>
+
+</div>
+
+
+<!-- ==================================================
+     MAIN CONTENT
+================================================== -->
+
+<div class="main">
+
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+        <h1>
+            College Library Management System
+        </h1>
+
+        <p>
+            Manage books, students, issues and returns easily.
+        </p>
+
+    </div>
+
+
+    <!-- ==================================================
+         STATISTICS
+    ================================================== -->
+
+    <div class="stats">
+
+
+        <!-- TOTAL BOOKS -->
+
+        <div class="card">
+
+            <h3>
+                📚 Total Books
+            </h3>
+
+            <div class="number">
+                {{ total_books }}
+            </div>
+
+        </div>
+
+
+        <!-- AVAILABLE BOOKS -->
+
+        <div class="card">
+
+            <h3>
+                📖 Available Books
+            </h3>
+
+            <div class="number">
+                {{ available_books }}
+            </div>
+
+        </div>
+
+
+        <!-- ISSUED BOOKS -->
+
+        <div class="card">
+
+            <h3>
+                📤 Issued Books
+            </h3>
+
+            <div class="number">
+                {{ issued_books }}
+            </div>
+
+        </div>
+
+
+        <!-- OVERDUE BOOKS -->
+
+        <div class="card">
+
+            <h3>
+                ⏰ Overdue Books
+            </h3>
+
+            <div class="number">
+                {{ overdue_books }}
+            </div>
+
+        </div>
+
+
+        <!-- STUDENTS -->
+
+        <div class="card">
+
+            <h3>
+                👨‍🎓 Students
+            </h3>
+
+            <div class="number">
+                {{ total_students }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================================
+         QUICK ACTIONS
+    ================================================== -->
+
+    <h2>
+        Quick Actions
+    </h2>
+
+
+    <div class="actions">
+
+
+        <!-- ADD BOOK -->
+
+        <a class="action"
+           href="/add-book">
+
+            ➕
+            <br><br>
+
+            Add New Book
+
+        </a>
+
+
+        <!-- VIEW BOOKS -->
+
+        <a class="action"
+           href="/books">
+
+            📖
+            <br><br>
+
+            View All Books
+
+        </a>
+
+
+        <!-- STUDENTS -->
+
+        <a class="action"
+           href="/students">
+
+            👨‍🎓
+            <br><br>
+
+            Student Management
+
+        </a>
+
+
+        <!-- ISSUE BOOK -->
+
+        <a class="action"
+           href="/issue-book">
+
+            📤
+            <br><br>
+
+            Issue Book
+
+        </a>
+
+
+        <!-- RETURN BOOK -->
+
+        <a class="action"
+           href="/return-book">
+
+            📥
+            <br><br>
+
+            Return Book
+
+        </a>
+
+
+        <!-- REPORTS -->
+
+        <a class="action"
+           href="/reports">
+
+            📊
+            <br><br>
+
+            Library Reports
+
+        </a>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>
+
